@@ -36,6 +36,39 @@ For my deep dive into the data analyst job market, I harnessed the power of seve
 
 This section outlines the steps taken to prepare the date for analysis, ensuring accuracy and usability.
 
+## Import & Clean Up Data
+
+I started importing necessary libraries and loading the dataset, followed by initial data cleaning tasks to ensure data quality.
+
+## Method and Data Cleanup
+
+To prepare the dataset for analysis, the raw data was loaded and processed using Python, Pandas, and the `ast` (Abstract Syntax Tree) library to safely evaluate string-formatted arrays into usable Python lists:
+
+```python
+# Importing Libraries
+import ast
+import pandas as pd
+import seaborn as sns
+from datasets import load_dataset
+import matplotlib.pyplot as plt
+
+# Loading Data
+dataset = load_dataset('lukebarousse/data_jobs')
+df = dataset['train'].to_pandas()
+
+# Data Cleanup
+df['job_posted_date'] = pd.to_datetime(df['job_posted_date'])
+df['job_skills'] = df['job_skills'].apply(lambda x: ast.literal_eval(x) if pd.notna(x) else x)
+```
+
+## Filter US Jobs
+
+To focus my analysis on the US job market, I apply filters to the dataset, narrowing down to roles based in the United States.
+
+```python
+df_US = df[df['job_country'] == 'United States']
+```
+
 # The Analysis
 
 Each Jupyter notebook for this project aimed at investing specific aspects of the data job market. Here's how I approached each question:
@@ -44,7 +77,7 @@ Each Jupyter notebook for this project aimed at investing specific aspects of th
 
 To find the most demanded skills for the top 3 most popular data roles. I filtered out those positions by which ones were the most popular, and got the top 5 skills for these top 3 roles. This query highlights the most popular job titles and their top skills, showing which skills i should pay attention to depending on the role I'm targeting.
 
-View my notebook with detailed steps here: [2_Skill_Demand.ipynb](3_Project\2_Skills_Demand.ipynb)
+View my notebook with detailed steps here: [2_Skills_Count.](3_Project/2_Skills_Count.ipynb)
 
 ### Visualize Data
 
@@ -75,7 +108,7 @@ plt.show()
 
 ### Results
 
-![Visualization of Top skills for Data Nerds](3_Project\images\skill_demand_all_data-roles.png)
+![Visualization of Top skills for Data Nerds](3_Project/images/skill_demand_all_data-roles.png)
 
 ### Insights
 
@@ -107,7 +140,7 @@ for i in range(5):
 
 ### Results
 
-![Trending Top Skills for Data Analysts in the US](3_Project\images\skill_trend_DA.png)
+![Trending Top Skills for Data Analysts in the US](3_Project/images/skill_trend_DA.png)
 *Bar graph visualizing the trending top skills for data  analysts in the US in 2023*
 ~
 ### Insights:
@@ -136,7 +169,7 @@ plt.show()
 
 #### Results
 
-![Salary Distributions of Data Jobs in the US](3_Project\images\salary_boxplot.png)
+![Salary Distributions of Data Jobs in the US](3_Project/images/salary_boxplot.png)
 *Box plot visualizing the salary distributions for the top 6 data job titles.*
 
 #### Insights
@@ -179,7 +212,7 @@ fig.tight_layout()
 
 Here's the breakdown of the highest-top 10 paid skills and in-demand skills for Data analysts in the US
 
-![The Highest Paid & Most In-Demand Skills for Data Analysts in the US](3_Project\images\Highest_Paid_and_Most_In_Demand_Skills_for_Data_Analysts_in_the_US.png)
+![The Highest Paid & Most In-Demand Skills for Data Analysts in the US](3_Project/images/Highest_Paid_and_Most_In_Demand_Skills_for_Data_Analysts_in_the_US.png)
 *Two separate bar graphs visualizing the highest paid skills and most in-demand skills for data analysts in the US*
 
 #### Insights:
@@ -205,7 +238,7 @@ plt.show()
 
 #### Results
 
-![Most Optimal Skills for Data Analysts in the US](3_Project\images\Most_Optimal_Skills_for_Data_Analysts_in_the_US_with_Coloring_by_Technology.png)
+![Most Optimal Skills for Data Analysts in the US](3_Project/images/Most_Optimal_Skills_for_Data_Analysts_in_the_US_with_Coloring_by_Technology.png)
 *A scatter plot visualizing the most optimal skills (high paying & high demand) for data analysts in the US*
 
 #### Insights:
